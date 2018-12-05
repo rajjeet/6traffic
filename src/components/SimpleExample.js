@@ -31,6 +31,7 @@ export default class SimpleExample extends React.Component {
         // console.log(this.state);
 
         // console.log(CITY_LOCATIONS);
+
         this.setState({data: CITY_LOCATIONS});
     }
 
