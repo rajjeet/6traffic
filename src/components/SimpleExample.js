@@ -1,40 +1,18 @@
 import React from 'react';
 import ReactMapGL, {SVGOverlay} from 'react-map-gl';
-import {fromJS} from 'immutable';
+import Immutable from 'immutable';
+import ScatterplotOverlay from './scatterplot-overlay';
+import CITIES from '../data.json';
 
+//
+// function redraw({project}) {
+//     const [cx, cy] = project([-79.4163, 43.70011]);
+//     return <circle cx={cx} cy={cy} r={4} fill="blue" />;
+// }
 
-function redraw({project}) {
-    const [cx, cy] = project([-79.4163, 43.70011]);
-    return <circle cx={cx} cy={cy} r={4} fill="blue" />;
-}
-
-const mapStyle = fromJS({
-    version: 8,
-    sources: {
-        points: {
-            type: 'geojson',
-            data: {
-                type: 'FeatureCollection',
-                features: [
-                    {type: 'Feature', geometry: {type: 'Point', coordinates: [-79.4163, 43.70011]}}
-                ]
-            }
-        }
-    },
-    layers: [
-        {
-            id: 'my-layer',
-            type: 'circle',
-            source: 'points',
-            paint: {
-                'circle-color': '#f00',
-                'circle-radius': '4'
-            }
-        }
-    ]
-});
-
-
+const CITY_LOCATIONS = Immutable.fromJS(
+    CITIES.map(c => [c.longitude, c.latitude])
+);
 
 export default class SimpleExample extends React.Component {
 
@@ -57,7 +35,13 @@ export default class SimpleExample extends React.Component {
                 onViewportChange={(viewport) => this.setState({viewport})}
                 // mapStyle={mapStyle}
             >
-                <SVGOverlay redraw={redraw} />
+                <ScatterplotOverlay key="scatterplot"
+                                    locations={CITY_LOCATIONS}
+                                    dotRadius={10}
+                                    globalOpacity={0.8}
+                                    compositeOperation="lighter"
+                                    dotFill="#00a8fe"
+                                    renderWhileDragging={true} />
             </ReactMapGL>
         );
     }
