@@ -3,12 +3,9 @@ import ReactMapGL, {SVGOverlay} from 'react-map-gl';
 import Immutable from 'immutable';
 import ScatterplotOverlay from './scatterplot-overlay';
 import CITIES from '../data.json';
+import axios from 'axios';
 
-//
-// function redraw({project}) {
-//     const [cx, cy] = project([-79.4163, 43.70011]);
-//     return <circle cx={cx} cy={cy} r={4} fill="blue" />;
-// }
+const API_URL = 'http://35.231.129.73:8080/weather?hour=1';
 
 const CITY_LOCATIONS = Immutable.fromJS(
     CITIES.map(c => [c.longitude, c.latitude])
@@ -23,11 +20,23 @@ export default class SimpleExample extends React.Component {
             latitude: 43.6532,
             longitude: -79.3832,
             zoom: 10
-        }
+        },
+        data: []
     };
+
+    componentDidMount() {
+        // axios.get(API_URL)
+            // .then(d => this.setState({data: {...d.data}}));
+            // .then(d => console.log(d));
+        // console.log(this.state);
+
+        // console.log(CITY_LOCATIONS);
+        this.setState({data: CITY_LOCATIONS});
+    }
 
 
     render() {
+
         return (
             <ReactMapGL
                 mapboxApiAccessToken='pk.eyJ1IjoicGh1bGxyMiIsImEiOiJjanBibGIwbjgwNTQyM29sa3M1OGdyM3V5In0.hxUtbU_3ehRWJ-HOQLm8dw'
@@ -36,12 +45,12 @@ export default class SimpleExample extends React.Component {
                 // mapStyle={mapStyle}
             >
                 <ScatterplotOverlay key="scatterplot"
-                                    locations={CITY_LOCATIONS}
+                                    locations={this.state.data}
                                     dotRadius={10}
                                     globalOpacity={0.8}
                                     compositeOperation="lighter"
                                     dotFill="#00a8fe"
-                                    renderWhileDragging={true} />
+                                    renderWhileDragging={true}/>
             </ReactMapGL>
         );
     }
