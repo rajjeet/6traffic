@@ -1,19 +1,26 @@
 import React, {Component} from 'react';
-// import './App.css';
+import 'semantic-ui-css/semantic.min.css';
 import TextMenu from "./components/TextMenu";
-import {Grid, Segment, Image, Container} from "semantic-ui-react";
+import {Grid, Segment, Container} from "semantic-ui-react";
+import TeamLogo from "./components/TeamLogo";
+import SimpleExample from "./components/SimpleExample";
+
+const containerStyle = {
+    marginTop: '20px'
+};
 
 class App extends Component {
     render() {
         return (
-            <Container>
-                <Grid columns={2}>
-                    <Grid.Column>
+            <Container style={containerStyle}>
+                <TeamLogo />
+                <Grid columns={2} relaxed>
+                    <Grid.Column width={3}>
                         <TextMenu/>
                     </Grid.Column>
-                    <Grid.Column>
+                    <Grid.Column width={13}>
                         <Segment>
-                            <Image src='https://via.placeholder.com/350'/>
+                            <SimpleExample/>
                         </Segment>
                     </Grid.Column>
                 </Grid>
